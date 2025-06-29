@@ -1,0 +1,15 @@
+name: DeployToDocker.yml
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-jar:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: ls -la
+
+
+
