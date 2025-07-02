@@ -35,11 +35,10 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             ${{ env.IMAGE_NAME }}:latest
-          
+
 
 
