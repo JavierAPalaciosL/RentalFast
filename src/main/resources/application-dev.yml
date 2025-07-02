@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: app
   datasource:
     url: ${URL}
     username: ${USERNAME}
@@ -17,6 +15,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
-server:
-  port: 8080

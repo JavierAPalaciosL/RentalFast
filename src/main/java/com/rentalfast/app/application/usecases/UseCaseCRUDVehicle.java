@@ -36,12 +36,12 @@ public class UseCaseCRUDVehicle implements CreateANewVehicle, DeleteAVehicle, Ge
 
     @Override
     public List<Car> getVehicles() {
-        return List.of();
+        return this.outputPortCar.findAllCars();
     }
 
     @Override
     public Car getVehicle(String tuitionVehicle) {
-        return null;
+        return this.outputPortCar.findACarByTuition(tuitionVehicle);
     }
 
     @Override

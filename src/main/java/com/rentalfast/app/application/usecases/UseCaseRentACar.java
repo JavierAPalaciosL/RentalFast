@@ -1,28 +1,21 @@
 package com.rentalfast.app.application.usecases;
 
-import com.rentalfast.app.adapters.rest.dtos.RentalPostCarDTO;
+import com.rentalfast.app.adapters.rest.dtos.RentalPostCarWithPayEffectiveAndDebitCardDTO;
 import com.rentalfast.app.application.inputs.*;
 import com.rentalfast.app.application.outputs.OutputRentAdapter;
-import com.rentalfast.app.domain.models.Rental;
-import com.rentalfast.app.domain.models.Status;
-import com.rentalfast.app.domain.models.Ticket;
+import com.rentalfast.app.domain.models.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class UseCaseRentACar implements CheckStatusCar, VehicleAvailableDates, CanIRentACar, EffectivePay, CreditPay {
+public class UseCaseRentACar implements CheckStatusCar, VehicleAvailableDates, CanIRentACar, PayWithCashAndEffective {
 
     private OutputRentAdapter outputRentAdapter;
 
     public UseCaseRentACar(OutputRentAdapter outputRentAdapter) {
         this.outputRentAdapter = outputRentAdapter;
-    }
-
-    @Override
-    public boolean iCanUseCar(String tuitionCar, Date startDate, Date endDate) {
-        return this.outputRentAdapter.iCanUseCar(tuitionCar, startDate, endDate);
     }
 
     @Override
@@ -42,12 +35,35 @@ public class UseCaseRentACar implements CheckStatusCar, VehicleAvailableDates, C
 
 
     @Override
-    public Ticket doPayCash(RentalPostCarDTO rentalPostCarDTO) {
-        return this.outputRentAdapter.saveRent(new Rental(rentalPostCarDTO.emailUser(), rentalPostCarDTO.paymentType(), rentalPostCarDTO.tuitionCar(), rentalPostCarDTO.startDate(), rentalPostCarDTO.endDate()));
+    public Ticket payWithCash(RentalPostCarWithPayEffectiveAndDebitCardDTO rentalPostCarWithPayEffectiveAndDebitCardDTO, double totalPrice) {
+        return this.outputRentAdapter.saveRent(
+                new Rental(
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.emailUser(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.paymentType(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.tuitionCar(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.startDate(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.endDate(),
+                        ""),
+                totalPrice);
+    }
+
+
+    @Override
+    public boolean iCanUseCar(String tuitionCar, LocalDateTime startDate, LocalDateTime endDate) {
+        return this.outputRentAdapter.iCanUseCar(tuitionCar, startDate, endDate);
+
     }
 
     @Override
-    public Ticket doEffectivePay(RentalPostCarDTO rentalPostCarDTO) {
-        return null;
+    public Ticket payWithDebit(RentalPostCarWithPayEffectiveAndDebitCardDTO rentalPostCarWithPayEffectiveAndDebitCardDTO, double totalPrice) {
+        return this.outputRentAdapter.saveRent(
+                new Rental(
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.emailUser(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.paymentType(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.tuitionCar(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.startDate(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.endDate(),
+                        rentalPostCarWithPayEffectiveAndDebitCardDTO.cardNumber()),
+                totalPrice);
     }
 }

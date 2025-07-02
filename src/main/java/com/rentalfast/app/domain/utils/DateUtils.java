@@ -17,12 +17,12 @@ public class DateUtils {
                 .toLocalDateTime();
     }
 
-    public static TimeToYearsMonthsWeeksDaysAndHours breakdownInterval(Date startDate, Date endDate) {
-        LocalDateTime start = toLocalDateTime(startDate);
-        LocalDateTime end   = toLocalDateTime(endDate);
-
+    public static TimeToYearsMonthsWeeksDaysAndHours breakdownInterval(
+            LocalDateTime start,
+            LocalDateTime end
+    ) {
         if (end.isBefore(start)) {
-            throw new IllegalArgumentException("endDate less to startDate");
+            throw new IllegalArgumentException("endDate must be after startDate");
         }
 
         TimeToYearsMonthsWeeksDaysAndHours time = new TimeToYearsMonthsWeeksDaysAndHours();

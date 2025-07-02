@@ -1,17 +1,13 @@
 package com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.rentalfast.app.domain.models.DeliveryStatus;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -33,8 +29,8 @@ public class EntityHistoryRent {
     @JoinColumn(name="userReference")
     private EntityUsers userReference;
 
-    private Date dateStart;
-    private Date dateEnd;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment")
@@ -42,5 +38,14 @@ public class EntityHistoryRent {
 
     private String totalPrice;
     private boolean isWasDelivered;
+
+    private boolean isIntoHangar;
+
+    @Column(name = "cardNumber", nullable = true)
+    private String cardNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private DeliveryStatus status;
 
 }

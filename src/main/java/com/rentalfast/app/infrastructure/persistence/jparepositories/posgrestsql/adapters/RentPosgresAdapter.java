@@ -1,6 +1,9 @@
 package com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.adapters;
 
 import com.rentalfast.app.application.outputs.OutputRentAdapter;
+import com.rentalfast.app.domain.dtos.RentalAndRentTemplate;
+import com.rentalfast.app.domain.models.DeliveryStatus;
+import com.rentalfast.app.domain.models.Payment;
 import com.rentalfast.app.domain.models.Rental;
 import com.rentalfast.app.domain.models.Ticket;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities.EntityCar;
@@ -11,6 +14,7 @@ import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryUsers;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Repository
@@ -29,17 +33,16 @@ public class RentPosgresAdapter implements OutputRentAdapter {
     }
 
     @Override
-    public boolean iCanUseCar(String tuition, Date date, Date dateEnd) {
-
+    public boolean iCanUseCar(String tuition, LocalDateTime date, LocalDateTime dateEnd) {
         EntityCar entityCar = this.jpaRepositoryCar.findByTuition(tuition);
-
-        return this.jpaEntityHistoryRent.findByCarByIdAndDateStartAndDateEnd(date, dateEnd, entityCar) != null;
+        return this.jpaEntityHistoryRent.findConflictingRents(entityCar.getTuition(), date, dateEnd) == null;
     }
 
     @Override
-    public Ticket saveRent(Rental rental) {
-;
+    public Ticket saveRent(Rental rental, double totalPrice) {
+
         EntityHistoryRent entityHistoryRent = this.jpaEntityHistoryRent.save(
+
                 EntityHistoryRent
                         .builder()
                         .carReference(this.jpaRepositoryCar.findByTuition(rental.getTuitionCar()))
@@ -47,8 +50,11 @@ public class RentPosgresAdapter implements OutputRentAdapter {
                         .dateStart(rental.getStartDate())
                         .dateEnd(rental.getEndDate()).
                         paymentMethod(this.jpaRepositoryPayment.findById(rental.getPaymentType().getValue()).get())
-                        .totalPrice("")
+                        .totalPrice(String.valueOf(totalPrice))
                         .isWasDelivered(true)
+                        .isIntoHangar(true)
+                        .status((rental.getPaymentType() == Payment.CASH) ? DeliveryStatus.PENDING : DeliveryStatus.SUCCESS)
+                        .cardNumber((rental.getPaymentType() == Payment.CARD) ? rental.getNumberCard() : null)
                         .build()
         );
 
@@ -62,5 +68,7 @@ public class RentPosgresAdapter implements OutputRentAdapter {
                 totalPrice(Double.parseDouble(entityHistoryRent.getTotalPrice())).
                 payment(rental.getPaymentType())
                 .build();
+
     }
+
 }
