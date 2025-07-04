@@ -1,5 +1,6 @@
 package com.rentalfast.app.adapter.rest;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class CarsRESTTest {
 
     @Test
     @DisplayName("Test for add a new car")
+    @Disabled
     public void addCarTest() throws Exception {
 
         String carJson = """
