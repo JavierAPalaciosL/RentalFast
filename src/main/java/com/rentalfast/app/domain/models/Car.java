@@ -16,7 +16,7 @@ public class Car {
     private String colorCar;
     private String descriptionCar;
     private Date fabricationCar;
-    private double hotPrice;
+    private String hotPrice;
     private String imageSrc;
 
     private double pricePerHour;
@@ -24,5 +24,37 @@ public class Car {
     private double pricePerWeek;
     private double pricePerMonth;
     private double pricePerYear;
+
+    private String brand;
+
+    private String engineType;
+
+    private String bodyType;
+
+    private String fuelType;
+
+    private String gearBoxType;
+
+    private String hp;
+
+    private String torqueLbft;
+
+    private String cylinders;
+
+    private String driveTrain;
+
+    private String seats;
+
+    private String doors;
+
+    private String height;
+
+    private String lenght;
+
+    private String width;
+
+    private String wheelBase;
+
+    private String airAConditioner;
 
 }

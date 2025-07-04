@@ -31,9 +31,25 @@ public class CarPostgresAdapter implements OutputPortCar {
                         newCar.getPricePerDay(),
                         newCar.getPricePerWeek(),
                         newCar.getPricePerMonth(),
-                        newCar.getPricePerYear()
-
+                        newCar.getPricePerYear(),
+                        newCar.getBrand(),
+                        newCar.getEngineType(),
+                        newCar.getBodyType(),
+                        newCar.getFuelType(),
+                        newCar.getGearBoxType(),
+                        newCar.getHp(),
+                        newCar.getTorqueLbft(),
+                        newCar.getCylinders(),
+                        newCar.getDriveTrain(),
+                        newCar.getSeats(),
+                        newCar.getDoors(),
+                        newCar.getHeight(),
+                        newCar.getLenght(),
+                        newCar.getWidth(),
+                        newCar.getWheelBase(),
+                        newCar.getAirAConditioner()
                         ));
+
         return new Car(
                 entityCar.getTuition(),
                 entityCar.getNameCar(),
@@ -46,7 +62,23 @@ public class CarPostgresAdapter implements OutputPortCar {
                 newCar.getPricePerDay(),
                 newCar.getPricePerWeek(),
                 newCar.getPricePerMonth(),
-                newCar.getPricePerYear()
+                newCar.getPricePerYear(),
+                newCar.getBrand(),
+                newCar.getEngineType(),
+                newCar.getBodyType(),
+                newCar.getFuelType(),
+                newCar.getGearBoxType(),
+                newCar.getHp(),
+                newCar.getTorqueLbft(),
+                newCar.getCylinders(),
+                newCar.getDriveTrain(),
+                newCar.getSeats(),
+                newCar.getDoors(),
+                newCar.getHeight(),
+                newCar.getLenght(),
+                newCar.getWidth(),
+                newCar.getWheelBase(),
+                newCar.getAirAConditioner()
 
         );
     }
@@ -54,12 +86,69 @@ public class CarPostgresAdapter implements OutputPortCar {
     @Override
     public Car findACarByTuition(String tuition) {
         EntityCar entityCar = this.repositoryCar.findByTuition(tuition);
-        return new Car(entityCar.getTuition(), entityCar.getNameCar(),entityCar.getCarColor(), entityCar.getDescriptioCar(), entityCar.getCreatedDate(), entityCar.getHotPrice(), entityCar.getImageSrc(), entityCar.getPricePerHour(), entityCar.getPricePerDay(), entityCar.getPricePerWeek(), entityCar.getPricePerMonth(),entityCar.getPricePerYear());
+        return new Car(
+                entityCar.getTuition(),
+                entityCar.getNameCar(),
+                entityCar.getCarColor(),
+                entityCar.getDescriptioCar(),
+                entityCar.getCreatedDate(),
+                entityCar.getHotPrice(),
+                entityCar.getImageSrc(),
+                entityCar.getPricePerHour(),
+                entityCar.getPricePerDay(),
+                entityCar.getPricePerWeek(),
+                entityCar.getPricePerMonth(),
+                entityCar.getPricePerYear(),
+                entityCar.getBrand(),
+                entityCar.getEngineType(),
+                entityCar.getBodyType(),
+                entityCar.getFuelType(),
+                entityCar.getGearBoxType(),
+                entityCar.getHp(),
+                entityCar.getTorqueLbft(),
+                entityCar.getCylinders(),
+                entityCar.getDriveTrain(),
+                entityCar.getSeats(),
+                entityCar.getDoors(),
+                entityCar.getHeight(),
+                entityCar.getLenght(),
+                entityCar.getWidth(),
+                entityCar.getWheelBase(),
+                entityCar.getAirAConditioner());
     }
 
     @Override
     public List<Car> findAllCars() {
-        return this.repositoryCar.findAll().stream().map(entityCar -> new Car(entityCar.getTuition(), entityCar.getNameCar(),entityCar.getCarColor(), entityCar.getDescriptioCar(), entityCar.getCreatedDate(), entityCar.getHotPrice(), entityCar.getImageSrc(), entityCar.getPricePerHour(), entityCar.getPricePerDay(), entityCar.getPricePerWeek(), entityCar.getPricePerMonth(),entityCar.getPricePerYear())).toList();
+        return this.repositoryCar.findAll().stream().map(entityCar ->
+                new Car(
+                        entityCar.getTuition(),
+                        entityCar.getNameCar(),
+                        entityCar.getCarColor(),
+                        entityCar.getDescriptioCar(),
+                        entityCar.getCreatedDate(),
+                        entityCar.getHotPrice(),
+                        entityCar.getImageSrc(),
+                        entityCar.getPricePerHour(),
+                        entityCar.getPricePerDay(),
+                        entityCar.getPricePerWeek(),
+                        entityCar.getPricePerMonth(),
+                        entityCar.getPricePerYear(),
+                        entityCar.getBrand(),
+                        entityCar.getEngineType(),
+                        entityCar.getBodyType(),
+                        entityCar.getFuelType(),
+                        entityCar.getGearBoxType(),
+                        entityCar.getHp(),
+                        entityCar.getTorqueLbft(),
+                        entityCar.getCylinders(),
+                        entityCar.getDriveTrain(),
+                        entityCar.getSeats(),
+                        entityCar.getDoors(),
+                        entityCar.getHeight(),
+                        entityCar.getLenght(),
+                        entityCar.getWidth(),
+                        entityCar.getWheelBase(),
+                        entityCar.getAirAConditioner())).toList();
     }
 
 

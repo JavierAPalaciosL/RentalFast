@@ -24,7 +24,7 @@ public class EntityCar {
     private String descriptioCar;
     private Date createdDate;
     private String imageSrc;
-    private double hotPrice;
+    private String hotPrice;
 
     @Column(name = "pricePerHour", nullable = false, columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private double pricePerHour;
@@ -40,5 +40,38 @@ public class EntityCar {
 
     @Column(name = "pricePerYear", nullable = false, columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private double pricePerYear;
+
+    private String brand;
+
+    private String engineType;
+
+    private String bodyType;
+
+    private String fuelType;
+
+    private String gearBoxType;
+
+    private String hp;
+
+    private String torqueLbft;
+
+    private String cylinders;
+
+    private String driveTrain;
+
+    private String seats;
+
+    private String doors;
+
+    private String height;
+
+    private String lenght;
+
+    private String width;
+
+    private String wheelBase;
+
+    private String airAConditioner;
+
 
 }
