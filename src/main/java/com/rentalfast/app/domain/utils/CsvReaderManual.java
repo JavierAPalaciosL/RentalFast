@@ -5,11 +5,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class for manually reading CSV files and converting them
+ * into a list of string lists, where each inner list represents a row
+ * of fields.
+ *
+ * @author Javier Palacios
+ * @deprecated Use {@link java.nio.file.Files#readAllLines(java.nio.file.Path)} o OpenCSV para un parsing más completo y eficiente.
+ */
 public class CsvReaderManual {
 
 
     private CsvReaderManual() {}
 
+    /**
+     * Reads a CSV file from the given file path and returns its contents
+     * as a list of rows, where each row is a list of string fields.
+     * <p>
+     * Lines are parsed using {@link #parsearLinea(String)}, which handles
+     * quoted fields and escaped quotes.
+     * </p>
+     *
+     * @param rutaArchivo the file path of the CSV file to read
+     * @return a list of rows, each row represented as a list of string fields
+     * @throws IOException if an I/O error occurs while reading the file
+     * @deprecated desde la versión 2.0.0. Use {@link java.nio.file.Files#readAllLines(java.nio.file.Path)}
+     *             u otra solución especializada.
+     */
+    @Deprecated
     public static List<List<String>> leerCsv(String rutaArchivo) throws IOException {
         List<List<String>> filas = new ArrayList<>();
 
@@ -23,6 +46,18 @@ public class CsvReaderManual {
         return filas;
     }
 
+
+    /**
+     * Parses a single line of a CSV file into a list of string fields.
+     * <p>
+     * Handles fields enclosed in double quotes, supports escaped quotes
+     * by using a pair of consecutive double quotes, and splits on commas
+     * only when not inside quoted sections.
+     * </p>
+     *
+     * @param linea the raw CSV line to parse
+     * @return a list of string fields extracted from the line
+     */
     private static List<String> parsearLinea(String linea) {
         List<String> campos = new ArrayList<>();
         StringBuilder campoActual = new StringBuilder();
