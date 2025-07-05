@@ -17,10 +17,10 @@ public class Batch {
     @Autowired
     private Job job;
 
-    @PostMapping("/run-job") // Define la URL para lanzar el job
+    @PostMapping("/run-job")
     public String runJob() {
         try {
-            // Se usan parámetros únicos para permitir que el job se ejecute más de una vez
+
             JobParameters jobParameters = new JobParametersBuilder()
                     .addString("JobID", String.valueOf(System.currentTimeMillis()))
                     .toJobParameters();

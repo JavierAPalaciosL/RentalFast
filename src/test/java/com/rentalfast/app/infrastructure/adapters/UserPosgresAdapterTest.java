@@ -1,5 +1,6 @@
 package com.rentalfast.app.infrastructure.adapters;
 
+import com.rentalfast.app.domain.exceptions.EmailNull;
 import com.rentalfast.app.domain.exceptions.EmailUserWrong;
 import com.rentalfast.app.domain.exceptions.RolNotFound;
 import com.rentalfast.app.domain.models.Rol;
@@ -32,22 +33,24 @@ public class UserPosgresAdapterTest {
     @Test
     @DisplayName("User with rol null")
     public void saveUserWithRolNull(){
-        User user = generateUser("javi.261280@gmail.com", "123", "james", "james", "bob", null, "");
+        User user = generateUser("javi.261280@gmail.com", "123", "james", "james", "bob", null, "222");
 
         Assertions.assertThrows(
-                IllegalArgumentException.class,
+                RolNotFound.class,
                 () -> userPostgresAdapter.saveUser(user),
-                "Se esperaba IllegalArgumentException cuando getRole() es null"
+                "Role is null"
         );
+
     }
 
     @Test
     @DisplayName("Incorrect Rol")
     public void saveUserWithIncorrectRol(){
-        BDDMockito.given(jpaRepositoryRol.getReferenceById("OTHEROL"))
-                .willReturn(null);
 
         User user = generateUser("javi.261280@gmail.com", "123", "james", "james", "bob", new Rol("OTHERROL",new Date()), "");
+
+        BDDMockito.given(jpaRepositoryRol.getReferenceById(user.getRole().getRolName()))
+                .willReturn(null);
 
         Assertions.assertThrows(RolNotFound.class,
                 () -> userPostgresAdapter.saveUser(user),
@@ -64,6 +67,18 @@ public class UserPosgresAdapterTest {
         Assertions.assertThrows(EmailUserWrong.class,
                 () -> userPostgresAdapter.saveUser(user),
                 "The Email is not valid");
+
+    }
+
+    @Test
+    @DisplayName("Email is null")
+    public void saveUserWithNullEmail(){
+        User user = generateUser(null, "123", "james", "james", "bob", new Rol("ADMIN",new Date()), "");
+
+        Assertions.assertThrows(EmailNull.class,
+                () -> userPostgresAdapter.saveUser(user),
+                "The Email is null"
+                );
 
     }
 
