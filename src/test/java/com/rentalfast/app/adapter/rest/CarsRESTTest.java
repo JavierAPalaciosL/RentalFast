@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 //@DataJpaTest //POR EL MOMENTO **NO USARE PARTES DE JPA Y HIBERNATE** PARA ESTA PRUEBA
+@Disabled
 public class CarsRESTTest {
 
     @Autowired

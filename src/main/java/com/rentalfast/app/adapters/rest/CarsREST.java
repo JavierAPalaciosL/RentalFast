@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cars")
+@RequestMapping("v1/cars")
 public class CarsREST {
 
     private final UseCaseCRUDVehicle useCaseCRUDVehicle;

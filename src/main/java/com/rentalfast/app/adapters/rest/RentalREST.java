@@ -1,12 +1,14 @@
 package com.rentalfast.app.adapters.rest;
 
 import com.rentalfast.app.adapters.rest.dtos.RentalPostCarWithPayEffectiveAndDebitCardDTO;
+import com.rentalfast.app.adapters.rest.warnings.errors.CarIsAlreadyBooked;
 import com.rentalfast.app.application.usecases.UseCaseCRUDVehicle;
 import com.rentalfast.app.application.usecases.UseCaseRentACar;
 import com.rentalfast.app.domain.models.Car;
 import com.rentalfast.app.domain.models.Payment;
 import com.rentalfast.app.domain.models.TimeToYearsMonthsWeeksDaysAndHours;
 import com.rentalfast.app.domain.utils.DateUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/rentals")
+@RequestMapping("v1/rentals")
 public class RentalREST {
 
     private final UseCaseRentACar useCaseRentACar;
@@ -35,13 +37,10 @@ public class RentalREST {
 
         boolean iCanUseCar = useCaseRentACar.iCanUseCar(rental.tuitionCar(), rental.startDate(), rental.endDate());
         if(!iCanUseCar){
-            System.out.println("vehiculo en uso");
-            return ResponseEntity.badRequest().build();
+            throw new CarIsAlreadyBooked("Car is already booked");
         }else if(rental.paymentType().equals(Payment.CARD) && rental.cardNumber() == null){
-            System.out.println("faltan los datos de la tarjeta");
             return ResponseEntity.badRequest().build();
         }else if(rental.paymentType().equals(Payment.CASH) && rental.cardNumber() != null){
-            System.out.println("los pagos en efectivo no llevan tarjeta");
             return ResponseEntity.badRequest().build();
         }
 
