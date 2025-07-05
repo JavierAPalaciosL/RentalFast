@@ -33,12 +33,13 @@ public class AppApplication implements CommandLineRunner {
         and    entity_history_rent.status = 'PENDING'
         and    entity_history_rent.payment = 1;
         */
-        jobLauncher.run(
+
+        /*jobLauncher.run(
                 job,
                 new JobParametersBuilder()
                         .addLong("time", System.currentTimeMillis())
                         .toJobParameters()
-        );
+        );*/
 
 
     }
