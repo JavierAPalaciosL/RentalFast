@@ -1,13 +1,12 @@
 package com.rentalfast.app.infrastructure.adapters;
 
 import com.rentalfast.app.domain.exceptions.EmailUserWrong;
+import com.rentalfast.app.domain.exceptions.RolNotFound;
 import com.rentalfast.app.domain.models.Rol;
 import com.rentalfast.app.domain.models.User;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.adapters.UserPostgresAdapter;
-import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities.EntityRol;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryRol;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryUsers;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +49,7 @@ public class UserPosgresAdapterTest {
 
         User user = generateUser("javi.261280@gmail.com", "123", "james", "james", "bob", new Rol("OTHERROL",new Date()), "");
 
-        Assertions.assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(RolNotFound.class,
                 () -> userPostgresAdapter.saveUser(user),
                 "Role not found");
 
@@ -67,7 +66,6 @@ public class UserPosgresAdapterTest {
                 "The Email is not valid");
 
     }
-
 
     private User generateUser(String email, String password, String firstName, String lastName, String username, Rol rol, String numberPhone) {
         return new User(email, password, username, firstName, lastName, rol, numberPhone, new Date());
