@@ -1,18 +1,11 @@
 package com.rentalfast.app.adapters.rest.warnings;
 
-import com.rentalfast.app.adapters.rest.warnings.errors.CarIsAlreadyBooked;
-import com.rentalfast.app.adapters.rest.warnings.errors.GlobalMessageTemplate;
-import com.rentalfast.app.adapters.rest.warnings.errors.GlobalMessageTemplateErrorsFields;
-import com.rentalfast.app.adapters.rest.warnings.errors.NotValidJSON;
-import org.springframework.http.HttpStatus;
+import com.rentalfast.app.adapters.rest.warnings.errors.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CarIsAlreadyBooked.class)
     public ResponseEntity<?> handleException(CarIsAlreadyBooked ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).
+        return ResponseEntity.status(CarIsAlreadyBooked.CONFLICT).
                 body(new GlobalMessageTemplate(
                         LocalDateTime.now(),
                         "CAR.CARISBOOKEDNOW!",
@@ -37,5 +30,39 @@ public class GlobalExceptionHandler {
                         )
                         ));
     }
+
+    @ExceptionHandler(CarPaymentWithCard.class)
+    public ResponseEntity<?> handleException(CarPaymentWithCard ex){
+        return ResponseEntity.status(CarPaymentWithCard.UnprocessableEntity)
+                .body(new GlobalMessageTemplate(
+                        LocalDateTime.now(),
+                        "PAYMENTWITHCARD I NEED A NUMBER CARD!",
+                        "The car do not can booked",
+                        "Plase insert a number card valid! "+ex.getMessage(),
+                        "/v1/rentals",
+                        new GlobalMessageTemplateErrorsFields(
+                                "cardNumber",
+                                "there are a conflict with number card"
+                        ))
+                );
+    }
+
+    @ExceptionHandler(CarPaymentWithCash.class)
+    public ResponseEntity<?> handleException(CarPaymentWithCash ex){
+        return ResponseEntity.status(CarPaymentWithCash.UnprocessableEntity)
+                .body(new GlobalMessageTemplate(
+                        LocalDateTime.now(),
+                        "PAYMENTWITHCASH I DONT NEED A NUMBER CARD!",
+                        "The car do not can booked",
+                        "Plase insert only the date for the booked! "+ex.getMessage(),
+                        "/v1/rentals",
+                        new GlobalMessageTemplateErrorsFields(
+                                "cardNumber",
+                                "I dont want the number card because there is a pay with effective"
+                        ))
+                );
+    }
+
+
 
 }
