@@ -17,19 +17,19 @@ public class CarsREST {
     }
 
     @PostMapping
-
     public ResponseEntity<?> addCar(@Valid @RequestBody Car cars){
-
         return ResponseEntity.ok(this.useCaseCRUDVehicle.createNewVehicle(cars));
     }
 
     @GetMapping("/{carId}/rentals")
     public ResponseEntity<?> getRentals(@PathVariable Integer carId){
+
         return null;
     }
 
     @GetMapping("/{carId}")
     public ResponseEntity<?> getCar(@PathVariable Integer carId){
+
         return null;
     }
 

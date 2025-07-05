@@ -58,6 +58,7 @@ public class CsvReaderManual {
      * @param linea the raw CSV line to parse
      * @return a list of string fields extracted from the line
      */
+    @Deprecated
     private static List<String> parsearLinea(String linea) {
         List<String> campos = new ArrayList<>();
         StringBuilder campoActual = new StringBuilder();

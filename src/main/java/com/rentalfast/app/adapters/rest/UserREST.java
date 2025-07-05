@@ -28,6 +28,11 @@ public class UserREST {
         );
     }
 
+    @GetMapping("/{email}")
+    public User getUser(@PathVariable String email){
+        return this.useCaseCRUDUser.getUser(email);
+    }
+
     @GetMapping
     public List<User> findAll(){
         return this.useCaseCRUDUser.getUsers();

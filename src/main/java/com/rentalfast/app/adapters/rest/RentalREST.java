@@ -66,7 +66,6 @@ public class RentalREST {
         }
 
         return ResponseEntity.ok().body(ticket);
-        
     }
 
     @GetMapping
