@@ -18,7 +18,6 @@ public class AppApplication implements CommandLineRunner {
     @Autowired
     private Job job;
 
-
     public static void main(String[] args) {
         SpringApplication.run(AppApplication.class, args);
     }

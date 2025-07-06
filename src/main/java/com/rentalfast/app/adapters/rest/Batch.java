@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Batch {
 
-    @Autowired
-    private JobLauncher jobLauncher;
+    private final JobLauncher jobLauncher;
+    private final Job job;
 
-    @Autowired
-    private Job job;
+    public Batch(JobLauncher jobLauncher, Job job) {
+        this.jobLauncher = jobLauncher;
+        this.job = job;
+    }
 
     @PostMapping("/run-job")
     public String runJob() {
