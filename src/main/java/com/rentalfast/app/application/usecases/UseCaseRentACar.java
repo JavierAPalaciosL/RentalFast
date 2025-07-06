@@ -3,14 +3,17 @@ package com.rentalfast.app.application.usecases;
 import com.rentalfast.app.adapters.rest.dtos.RentalPostCarWithPayEffectiveAndDebitCardDTO;
 import com.rentalfast.app.application.inputs.*;
 import com.rentalfast.app.application.outputs.OutputRentAdapter;
+import com.rentalfast.app.domain.dtos.PaginatorMapsDTO;
 import com.rentalfast.app.domain.models.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
-public class UseCaseRentACar implements CheckStatusCar, VehicleAvailableDates, CanIRentACar, PayWithCashAndEffective {
+public class UseCaseRentACar implements CheckStatusCar, VehicleAvailableDates, CanIRentACar, PayWithCashAndEffective, GetAllRents {
 
     private OutputRentAdapter outputRentAdapter;
 
@@ -66,4 +69,10 @@ public class UseCaseRentACar implements CheckStatusCar, VehicleAvailableDates, C
                         rentalPostCarWithPayEffectiveAndDebitCardDTO.cardNumber()),
                 totalPrice);
     }
+
+    @Override
+    public PaginatorMapsDTO<String, LinkedHashMap<String, List<Ticket>>> getAllRents(Pageable pageable) {
+        return this.outputRentAdapter.getAllRents(pageable);
+    }
+
 }

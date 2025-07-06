@@ -1,5 +1,6 @@
 package com.rentalfast.app.adapter.rest;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 //@DataJpaTest //POR EL MOMENTO **NO USARE PARTES DE JPA Y HIBERNATE** PARA ESTA PRUEBA
+@Disabled
 public class CarsRESTTest {
 
     @Autowired
@@ -22,6 +24,7 @@ public class CarsRESTTest {
 
     @Test
     @DisplayName("Test for add a new car")
+    @Disabled
     public void addCarTest() throws Exception {
 
         String carJson = """

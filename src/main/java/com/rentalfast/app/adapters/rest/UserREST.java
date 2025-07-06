@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("v1/users")
 public class UserREST {
 
     private final UseCaseCRUDUser useCaseCRUDUser;
@@ -28,6 +28,11 @@ public class UserREST {
         );
     }
 
+    @GetMapping("/{email}")
+    public User getUser(@PathVariable String email){
+        return this.useCaseCRUDUser.getUser(email);
+    }
+
     @GetMapping
     public List<User> findAll(){
         return this.useCaseCRUDUser.getUsers();
@@ -35,6 +40,14 @@ public class UserREST {
 
     @PatchMapping("/{email}/roles")
     public ResponseEntity<List<?>> updateRoles(@PathVariable("email") String email, @RequestBody Role role){
+        return null;
+    }
+
+    @GetMapping("/{email}/rents")
+    public ResponseEntity<?> getRents(@PathVariable("email") String email){
+
+
+
         return null;
     }
 
