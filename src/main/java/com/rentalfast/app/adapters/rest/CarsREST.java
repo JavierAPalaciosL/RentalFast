@@ -21,9 +21,21 @@ public class CarsREST {
         return ResponseEntity.ok(this.useCaseCRUDVehicle.createNewVehicle(cars));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getCars(@RequestParam(required = false, name = "pageNumber") String pageNumber, @RequestParam(required = false, name = "pageSize") String pageSize){
+
+        if(pageNumber == null || pageSize == null){
+            return ResponseEntity.ok(this.useCaseCRUDVehicle.getVehicles());
+        }
+        
+        int pageAt = Integer.parseInt(pageNumber);
+        int sizeAt = Integer.parseInt(pageSize);
+
+        return ResponseEntity.ok(this.useCaseCRUDVehicle.getVehiclesByRange(pageAt, sizeAt));
+    }
+
     @GetMapping("/{carId}/rentals")
     public ResponseEntity<?> getRentals(@PathVariable Integer carId){
-
         return null;
     }
 
@@ -32,6 +44,5 @@ public class CarsREST {
 
         return null;
     }
-
 
 }

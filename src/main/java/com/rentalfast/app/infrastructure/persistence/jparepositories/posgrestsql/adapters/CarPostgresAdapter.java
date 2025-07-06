@@ -4,6 +4,8 @@ import com.rentalfast.app.application.outputs.OutputPortCar;
 import com.rentalfast.app.domain.models.Car;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities.EntityCar;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryCar;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -151,5 +153,39 @@ public class CarPostgresAdapter implements OutputPortCar {
                         entityCar.getAirAConditioner())).toList();
     }
 
+    @Override
+    public List<Car> findAllBy(Pageable pageable) {
+        return this.repositoryCar.findAllBy(pageable).stream().map(entityCar ->
+                new Car(
+                        entityCar.getTuition(),
+                        entityCar.getNameCar(),
+                        entityCar.getCarColor(),
+                        entityCar.getDescriptioCar(),
+                        entityCar.getCreatedDate(),
+                        entityCar.getHotPrice(),
+                        entityCar.getImageSrc(),
+                        entityCar.getPricePerHour(),
+                        entityCar.getPricePerDay(),
+                        entityCar.getPricePerWeek(),
+                        entityCar.getPricePerMonth(),
+                        entityCar.getPricePerYear(),
+                        entityCar.getBrand(),
+                        entityCar.getEngineType(),
+                        entityCar.getBodyType(),
+                        entityCar.getFuelType(),
+                        entityCar.getGearBoxType(),
+                        entityCar.getHp(),
+                        entityCar.getTorqueLbft(),
+                        entityCar.getCylinders(),
+                        entityCar.getDriveTrain(),
+                        entityCar.getSeats(),
+                        entityCar.getDoors(),
+                        entityCar.getHeight(),
+                        entityCar.getLenght(),
+                        entityCar.getWidth(),
+                        entityCar.getWheelBase(),
+                        entityCar.getAirAConditioner()
+                )).toList();
+    }
 
 }

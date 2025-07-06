@@ -8,6 +8,6 @@ public interface GetAVehicle {
 
     List<Car> getVehicles();
     Car getVehicle(String tuitionVehicle);
-
+    List<Car> getVehiclesByRange(int pageNumber, int pageSize);
 
 }

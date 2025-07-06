@@ -6,6 +6,8 @@ import com.rentalfast.app.application.inputs.CreateANewVehicle;
 import com.rentalfast.app.application.inputs.DeleteAVehicle;
 import com.rentalfast.app.application.inputs.GetAVehicle;
 import com.rentalfast.app.application.inputs.UpdateAVehicle;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +44,11 @@ public class UseCaseCRUDVehicle implements CreateANewVehicle, DeleteAVehicle, Ge
     @Override
     public Car getVehicle(String tuitionVehicle) {
         return this.outputPortCar.findACarByTuition(tuitionVehicle);
+    }
+
+    @Override
+    public List<Car> getVehiclesByRange(int pageNumber, int pageSize) {
+        return this.outputPortCar.findAllBy(PageRequest.of(pageNumber, pageSize)).stream().toList();
     }
 
     @Override
