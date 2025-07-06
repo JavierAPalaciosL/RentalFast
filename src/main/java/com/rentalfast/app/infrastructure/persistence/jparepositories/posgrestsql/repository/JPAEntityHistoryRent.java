@@ -1,6 +1,8 @@
 package com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository;
 
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities.EntityHistoryRent;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -8,7 +10,7 @@ import java.time.LocalDateTime;
 
 public interface JPAEntityHistoryRent extends JpaRepository<EntityHistoryRent, Integer> {
 
-        @Query("""
+    @Query("""
        SELECT e
        FROM EntityHistoryRent e
        WHERE e.carReference.tuition = :carId
@@ -22,5 +24,7 @@ public interface JPAEntityHistoryRent extends JpaRepository<EntityHistoryRent, I
             @Param("newEnd")   LocalDateTime   newEnd
     );
 
+
+    Slice<EntityHistoryRent> getAllBy(Pageable pageable);
 
 }

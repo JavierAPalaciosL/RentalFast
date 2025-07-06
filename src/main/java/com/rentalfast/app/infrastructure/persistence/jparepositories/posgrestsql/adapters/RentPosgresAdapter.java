@@ -1,7 +1,7 @@
 package com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.adapters;
 
 import com.rentalfast.app.application.outputs.OutputRentAdapter;
-import com.rentalfast.app.domain.dtos.RentalAndRentTemplate;
+import com.rentalfast.app.domain.dtos.PaginatorMapsDTO;
 import com.rentalfast.app.domain.models.DeliveryStatus;
 import com.rentalfast.app.domain.models.Payment;
 import com.rentalfast.app.domain.models.Rental;
@@ -12,10 +12,15 @@ import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryCar;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryPayment;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryUsers;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class RentPosgresAdapter implements OutputRentAdapter {
@@ -68,6 +73,54 @@ public class RentPosgresAdapter implements OutputRentAdapter {
                 totalPrice(Double.parseDouble(entityHistoryRent.getTotalPrice())).
                 payment(rental.getPaymentType())
                 .build();
+
+    }
+
+    @Override
+    public PaginatorMapsDTO<String, LinkedHashMap<String, List<Ticket>>> getAllRents(Pageable pageable) {
+
+        Slice<EntityHistoryRent> slice = this.jpaEntityHistoryRent.getAllBy(pageable);
+
+        Map<String, LinkedHashMap<String, List<Ticket>>> dataByUser =
+                slice.stream()
+                        .collect(Collectors.groupingBy(
+                                // 1er nivel: email, manteniendo orden
+                                e -> e.getUserReference().getEmail(),
+                                LinkedHashMap::new,
+                                // 2º nivel: status → lista de Tickets, manteniendo orden de aparición
+                                Collectors.groupingBy(
+                                        e -> {
+                                            if (e.getStatus() == DeliveryStatus.PENDING) {
+                                                return "PENDING";
+                                            } else if (e.getStatus() == DeliveryStatus.SUCCESS) {
+                                                return e.isIntoHangar() ? "SUCCESS" : "ON COURSE";
+                                            } else {
+                                                return "CANCELLED";
+                                            }
+                                        },
+                                        LinkedHashMap::new,
+                                        // mapea cada entidad a su Ticket y lo recopila en lista
+                                        Collectors.mapping(
+                                                e -> Ticket.builder()
+                                                        .emailUser(e.getUserReference().getEmail())
+                                                        .tuitionCar(e.getCarReference().getTuition())
+                                                        .nameCar(e.getCarReference().getNameCar())
+                                                        .descriptionCar(e.getCarReference().getDescriptioCar())
+                                                        .dateStartRent(e.getDateStart())
+                                                        .dateEndRent(e.getDateEnd())
+                                                        .totalPrice(Double.parseDouble(e.getTotalPrice()))
+                                                        .payment(
+                                                                e.getPaymentMethod().getPayment().equals(Payment.CASH)
+                                                                        ? Payment.CASH : Payment.CARD
+                                                        )
+                                                        .build(),
+                                                Collectors.toList()
+                                        )
+                                )
+                        ));
+
+
+        return new PaginatorMapsDTO<>(dataByUser, slice.hasNext());
 
     }
 

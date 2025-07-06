@@ -43,4 +43,12 @@ public class UserREST {
         return null;
     }
 
+    @GetMapping("/{email}/rents")
+    public ResponseEntity<?> getRents(@PathVariable("email") String email){
+
+
+
+        return null;
+    }
+
 }

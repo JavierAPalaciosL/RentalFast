@@ -36,7 +36,7 @@ public class CarsREST {
 
         PaginatorDTO<Car> paginatorDTO = this.useCaseCRUDVehicle.getVehiclesByRange(pageAt, sizeAt);
 
-        return ResponseEntity.ok(new WrapperPaginationDTO<>(paginatorDTO.getCars(), pageAt, sizeAt, paginatorDTO.isHasNext()));
+        return ResponseEntity.ok(new WrapperPaginationDTO<>(paginatorDTO.getElements(), pageAt, sizeAt, paginatorDTO.isHasNext()));
 
     }
 

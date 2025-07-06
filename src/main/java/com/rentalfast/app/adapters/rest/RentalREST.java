@@ -11,6 +11,7 @@ import com.rentalfast.app.domain.models.Payment;
 import com.rentalfast.app.domain.models.Ticket;
 import com.rentalfast.app.domain.models.TimeToYearsMonthsWeeksDaysAndHours;
 import com.rentalfast.app.domain.utils.DateUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,8 +70,8 @@ public class RentalREST {
     }
 
     @GetMapping
-    public ResponseEntity<?> getRentals(){
-        return null;
+    public ResponseEntity<?> getRentals(@RequestParam("pageNumber") int page,  @RequestParam("pageSize") int pageSize){
+        return ResponseEntity.ok(this.useCaseRentACar.getAllRents(PageRequest.of(page, pageSize)));
     }
 
     @GetMapping("/search")

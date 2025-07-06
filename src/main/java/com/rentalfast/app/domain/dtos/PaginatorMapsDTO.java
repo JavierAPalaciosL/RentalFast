@@ -1,19 +1,14 @@
 package com.rentalfast.app.domain.dtos;
 
-
-import com.rentalfast.app.domain.models.Car;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaginatorDTO<T> {
-
-    private List<T> elements;
+public class PaginatorMapsDTO<T, U> {
+    private Map<T, U> elements;
     private boolean hasNext;
-
 }

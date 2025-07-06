@@ -1,5 +1,6 @@
 package com.rentalfast.app.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class Ticket {
     private double totalPrice;
 
     private Payment payment;
+
+    @JsonIgnore
+    private DeliveryStatus status;
 
     //private Date goToTheOfficeDateOnlyPayWithEffective;
 
