@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,7 +114,6 @@ public class RentPosgresAdapter implements OutputRentAdapter {
                                         )
                                 )
                         ));
-
 
         return new PaginatorMapsDTO<>(dataByUser, slice.hasNext());
 
