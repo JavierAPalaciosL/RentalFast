@@ -1,6 +1,7 @@
 package com.rentalfast.app.application.usecases;
 
 import com.rentalfast.app.application.outputs.OutputPortCar;
+import com.rentalfast.app.domain.dtos.PaginatorDTO;
 import com.rentalfast.app.domain.models.Car;
 import com.rentalfast.app.application.inputs.CreateANewVehicle;
 import com.rentalfast.app.application.inputs.DeleteAVehicle;
@@ -47,8 +48,8 @@ public class UseCaseCRUDVehicle implements CreateANewVehicle, DeleteAVehicle, Ge
     }
 
     @Override
-    public List<Car> getVehiclesByRange(int pageNumber, int pageSize) {
-        return this.outputPortCar.findAllBy(PageRequest.of(pageNumber, pageSize)).stream().toList();
+    public PaginatorDTO<Car> getVehiclesByRange(int pageNumber, int pageSize) {
+        return this.outputPortCar.findAllBy(PageRequest.of(pageNumber, pageSize));
     }
 
     @Override

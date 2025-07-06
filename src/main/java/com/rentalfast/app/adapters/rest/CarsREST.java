@@ -1,6 +1,8 @@
 package com.rentalfast.app.adapters.rest;
 
+import com.rentalfast.app.adapters.rest.dtos.WrapperPaginationDTO;
 import com.rentalfast.app.application.usecases.UseCaseCRUDVehicle;
+import com.rentalfast.app.domain.dtos.PaginatorDTO;
 import com.rentalfast.app.domain.models.Car;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,17 @@ public class CarsREST {
     @GetMapping
     public ResponseEntity<?> getCars(@RequestParam(required = false, name = "pageNumber") String pageNumber, @RequestParam(required = false, name = "pageSize") String pageSize){
 
-        if(pageNumber == null || pageSize == null){
+        if(pageNumber == null || pageSize == null || !pageNumber.matches("\\d+") || !pageSize.matches("\\d+")){
             return ResponseEntity.ok(this.useCaseCRUDVehicle.getVehicles());
         }
-        
+
         int pageAt = Integer.parseInt(pageNumber);
         int sizeAt = Integer.parseInt(pageSize);
 
-        return ResponseEntity.ok(this.useCaseCRUDVehicle.getVehiclesByRange(pageAt, sizeAt));
+        PaginatorDTO<Car> paginatorDTO = this.useCaseCRUDVehicle.getVehiclesByRange(pageAt, sizeAt);
+
+        return ResponseEntity.ok(new WrapperPaginationDTO<>(paginatorDTO.getCars(), pageAt, sizeAt, paginatorDTO.isHasNext()));
+
     }
 
     @GetMapping("/{carId}/rentals")

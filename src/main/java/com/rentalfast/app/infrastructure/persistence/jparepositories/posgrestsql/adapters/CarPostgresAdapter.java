@@ -1,6 +1,7 @@
 package com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.adapters;
 
 import com.rentalfast.app.application.outputs.OutputPortCar;
+import com.rentalfast.app.domain.dtos.PaginatorDTO;
 import com.rentalfast.app.domain.models.Car;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities.EntityCar;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryCar;
@@ -154,8 +155,11 @@ public class CarPostgresAdapter implements OutputPortCar {
     }
 
     @Override
-    public List<Car> findAllBy(Pageable pageable) {
-        return this.repositoryCar.findAllBy(pageable).stream().map(entityCar ->
+    public PaginatorDTO findAllBy(Pageable pageable) {
+
+        Slice<EntityCar> sliceList = this.repositoryCar.findAllBy(pageable);
+
+        List<Car> listCars = sliceList.stream().map(entityCar ->
                 new Car(
                         entityCar.getTuition(),
                         entityCar.getNameCar(),
@@ -186,6 +190,9 @@ public class CarPostgresAdapter implements OutputPortCar {
                         entityCar.getWheelBase(),
                         entityCar.getAirAConditioner()
                 )).toList();
+
+
+        return new PaginatorDTO<Car>(listCars, sliceList.hasNext());
     }
 
 }

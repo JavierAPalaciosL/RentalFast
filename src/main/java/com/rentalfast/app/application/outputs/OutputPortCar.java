@@ -1,6 +1,7 @@
 package com.rentalfast.app.application.outputs;
 
 
+import com.rentalfast.app.domain.dtos.PaginatorDTO;
 import com.rentalfast.app.domain.models.Car;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -12,6 +13,6 @@ public interface OutputPortCar {
     Car saveACar(Car newCar);
     Car findACarByTuition(String tuition);
     List<Car> findAllCars();
-    List<Car> findAllBy(Pageable pageable);
+    PaginatorDTO findAllBy(Pageable pageable);
 
 }
