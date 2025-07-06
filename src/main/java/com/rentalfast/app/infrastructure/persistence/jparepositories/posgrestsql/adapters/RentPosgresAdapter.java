@@ -84,10 +84,8 @@ public class RentPosgresAdapter implements OutputRentAdapter {
         Map<String, LinkedHashMap<String, List<Ticket>>> dataByUser =
                 slice.stream()
                         .collect(Collectors.groupingBy(
-                                // 1er nivel: email, manteniendo orden
                                 e -> e.getUserReference().getEmail(),
                                 LinkedHashMap::new,
-                                // 2º nivel: status → lista de Tickets, manteniendo orden de aparición
                                 Collectors.groupingBy(
                                         e -> {
                                             if (e.getStatus() == DeliveryStatus.PENDING) {
@@ -99,7 +97,6 @@ public class RentPosgresAdapter implements OutputRentAdapter {
                                             }
                                         },
                                         LinkedHashMap::new,
-                                        // mapea cada entidad a su Ticket y lo recopila en lista
                                         Collectors.mapping(
                                                 e -> Ticket.builder()
                                                         .emailUser(e.getUserReference().getEmail())
