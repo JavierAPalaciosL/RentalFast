@@ -5,6 +5,7 @@ import com.rentalfast.app.domain.dtos.PaginatorDTO;
 import com.rentalfast.app.domain.models.Car;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.entities.EntityCar;
 import com.rentalfast.app.infrastructure.persistence.jparepositories.posgrestsql.repository.JPARepositoryCar;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -89,6 +90,7 @@ public class CarPostgresAdapter implements OutputPortCar {
     @Override
     public Car findACarByTuition(String tuition) {
         EntityCar entityCar = this.repositoryCar.findByTuition(tuition);
+
         return new Car(
                 entityCar.getTuition(),
                 entityCar.getNameCar(),
@@ -193,6 +195,11 @@ public class CarPostgresAdapter implements OutputPortCar {
 
 
         return new PaginatorDTO<Car>(listCars, sliceList.hasNext());
+    }
+
+    @Override
+    public boolean carExists(String tuition) {
+        return this.repositoryCar.findByTuition(tuition) != null;
     }
 
 }

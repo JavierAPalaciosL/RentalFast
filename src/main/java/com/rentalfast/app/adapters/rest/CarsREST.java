@@ -1,6 +1,7 @@
 package com.rentalfast.app.adapters.rest;
 
 import com.rentalfast.app.adapters.rest.dtos.WrapperPaginationDTO;
+import com.rentalfast.app.adapters.rest.warnings.errors.CarDontExists;
 import com.rentalfast.app.application.usecases.UseCaseCRUDVehicle;
 import com.rentalfast.app.domain.dtos.PaginatorDTO;
 import com.rentalfast.app.domain.models.Car;
@@ -45,9 +46,13 @@ public class CarsREST {
     }
 
     @GetMapping("/{carId}")
-    public ResponseEntity<?> getCar(@PathVariable Integer carId){
+    public ResponseEntity<?> getCar(@PathVariable String carId){
 
-        return null;
+        if(!this.useCaseCRUDVehicle.existsVehicle(carId)){
+            throw new CarDontExists("ERROR carId does not exist");
+        }
+
+        return ResponseEntity.ok(this.useCaseCRUDVehicle.getVehicle(carId));
     }
 
 }

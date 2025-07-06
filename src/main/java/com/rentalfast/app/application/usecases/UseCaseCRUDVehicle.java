@@ -53,6 +53,11 @@ public class UseCaseCRUDVehicle implements CreateANewVehicle, DeleteAVehicle, Ge
     }
 
     @Override
+    public boolean existsVehicle(String tuitionVehicle) {
+        return this.outputPortCar.carExists(tuitionVehicle);
+    }
+
+    @Override
     public boolean isUpdate(Car car) {
         return false;
     }

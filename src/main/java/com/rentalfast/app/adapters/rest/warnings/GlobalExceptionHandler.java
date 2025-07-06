@@ -63,6 +63,20 @@ public class GlobalExceptionHandler {
                 );
     }
 
-
+    @ExceptionHandler(CarDontExists.class)
+    public ResponseEntity<?> handleException(CarDontExists ex){
+        return ResponseEntity.status(CarDontExists.NOT_FOUND)
+                .body(new GlobalMessageTemplate(
+                        LocalDateTime.now(),
+                        "The car do not exist",
+                        "Car not found tuition invalid",
+                        "Plase insert a valid tuition car! "+ex.getMessage(),
+                        "/v1/cars/{carId}",
+                        new GlobalMessageTemplateErrorsFields(
+                                "carId",
+                                "Missing carId insert a valid carId, see /v1/cars o go to documentation"
+                        ))
+                );
+    }
 
 }

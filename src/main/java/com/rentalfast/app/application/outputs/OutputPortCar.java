@@ -14,5 +14,6 @@ public interface OutputPortCar {
     Car findACarByTuition(String tuition);
     List<Car> findAllCars();
     PaginatorDTO findAllBy(Pageable pageable);
+    boolean carExists(String tuition);
 
 }
